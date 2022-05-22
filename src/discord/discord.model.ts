@@ -3,6 +3,7 @@ import {
     Client,
     Guild,
     GuildMember,
+    Interaction,
     Message,
     MessageReaction,
     PartialMessageReaction,
@@ -17,6 +18,13 @@ import { GetConfig, SetConfig } from '../models/config.model';
 import { MemberEventFactory } from '../models/member-event-factory';
 import { COMMAND_COMMAND } from './deault-commands/command.command';
 import { getEmbedCalendar } from './embeds/calendar.embed';
+import { SLASH_COMMAND } from './WiduTest/Test';
+
+export type TSlashCommand = {
+    desc: [string, string][];
+    command: string;
+    callback: (inter: Interaction, discord: Discord) => Promise<void>;
+};
 
 export type TCalCommand = {
     desc: [string, string][];
@@ -267,7 +275,8 @@ export class Discord {
         reactions: Array<TReaction>,
         alerts: Array<TAlert>,
         eventAlerts: Array<TEventAlert>,
-        memberEvents: Array<TMemberEventCommand>
+        memberEvents: Array<TMemberEventCommand>,
+        slashCommand: Array<TSlashCommand>
     ) {
         this._bot.on('debug', (msg: string) => {
             logger.debug(msg);
@@ -291,6 +300,7 @@ export class Discord {
         await this._initDefaultRole();
         this._routines(routines).catch(e => logger.error(e));
         await this._memberEventFactory.init();
+        await this._initSlashCommands();
     }
 
     public async updateCalendar(): Promise<void> {
@@ -674,6 +684,12 @@ export class Discord {
         this.commandsChannelId = await GetConfig('COM_CH_ID');
         this.refCleanChannelIds = (await GetConfig('REF_CLEAN_CHS'))?.split(',') || [];
         await this.initCalendarChannel();
+    }
+
+    private async _initSlashCommands(): Promise<void> {
+        this._bot.on('interactionCreate', async Interaction => {
+            await SLASH_COMMAND.callback(Interaction, this);
+        });
     }
 
     private async _routines(routines: Array<TRoutine>) {
