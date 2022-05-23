@@ -29,6 +29,16 @@ export const SLASH_COMMANDS: TSlashCommands = {
         });
 
         commands?.create({
+            name: 'testbutton',
+            description: 'Replies with Button.'
+        });
+
+        /*commands?.create({
+            name: 'TestButton',
+            description: 'TestButton'
+        });*/
+
+        commands?.create({
             name: 'add',
             description: 'Adds two numbers together.',
             options: [
