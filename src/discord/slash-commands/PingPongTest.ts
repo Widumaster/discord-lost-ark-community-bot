@@ -7,7 +7,6 @@ export const PINGPONG_TEST = {
             return;
         }
 
-        console.log('Test');
         const { commandName, options } = inter;
         if (commandName === 'ping') {
             await inter.reply('pong');
