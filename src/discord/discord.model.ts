@@ -18,11 +18,9 @@ import { GetConfig, SetConfig } from '../models/config.model';
 import { MemberEventFactory } from '../models/member-event-factory';
 import { COMMAND_COMMAND } from './deault-commands/command.command';
 import { getEmbedCalendar } from './embeds/calendar.embed';
-import { SLASH_COMMAND } from './WiduTest/Test';
+import { INTERACTION_HANDLER } from './slash-commands/InteractionHandler';
 
-export type TSlashCommand = {
-    desc: [string, string][];
-    command: string;
+export type TInteractionHandler = {
     callback: (inter: Interaction, discord: Discord) => Promise<void>;
 };
 
@@ -276,7 +274,7 @@ export class Discord {
         alerts: Array<TAlert>,
         eventAlerts: Array<TEventAlert>,
         memberEvents: Array<TMemberEventCommand>,
-        slashCommand: Array<TSlashCommand>
+        slashCommand: Array<TInteractionHandler>
     ) {
         this._bot.on('debug', (msg: string) => {
             logger.debug(msg);
@@ -300,7 +298,7 @@ export class Discord {
         await this._initDefaultRole();
         this._routines(routines).catch(e => logger.error(e));
         await this._memberEventFactory.init();
-        await this._initSlashCommands();
+        await this._initInteractionHandler();
     }
 
     public async updateCalendar(): Promise<void> {
@@ -686,9 +684,9 @@ export class Discord {
         await this.initCalendarChannel();
     }
 
-    private async _initSlashCommands(): Promise<void> {
+    private async _initInteractionHandler(): Promise<void> {
         this._bot.on('interactionCreate', async Interaction => {
-            await SLASH_COMMAND.callback(Interaction, this);
+            await INTERACTION_HANDLER.callback(Interaction, this);
         });
     }
 

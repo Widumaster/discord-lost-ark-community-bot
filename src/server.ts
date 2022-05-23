@@ -22,7 +22,7 @@ import { WELCOME_REACTION } from './discord/reactions/welcome.reaction';
 import { CLEAN_UP_ROUTINE } from './discord/routines/clean-up.routine';
 import { COMMANDS_CLEAN_UP_ROUTINE } from './discord/routines/commands-clean-up.routine';
 import { UPDATE_CALENDAR_ROUTINE } from './discord/routines/update-calendar.routine';
-import { SLASH_COMMAND } from './discord/WiduTest/Test';
+import { INTERACTION_HANDLER } from './discord/slash-commands/InteractionHandler';
 export class Server {
     discord: Discord;
 
@@ -40,7 +40,7 @@ export class Server {
             [ADVENTURE_ALERT],
             [SERIA_EVENT_ALERT, GIFT_EVENT_ALERT],
             [ADD_MEMBER_EVENT],
-            [SLASH_COMMAND]
+            [INTERACTION_HANDLER]
         );
     }
 }
