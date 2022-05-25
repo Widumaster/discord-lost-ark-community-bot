@@ -29,14 +29,9 @@ export const SLASH_COMMANDS: TSlashCommands = {
         });
 
         commands?.create({
-            name: 'testbutton',
-            description: 'Replies with Button.'
+            name: 'test',
+            description: 'Test Description.'
         });
-
-        /*commands?.create({
-            name: 'TestButton',
-            description: 'TestButton'
-        });*/
 
         commands?.create({
             name: 'add',

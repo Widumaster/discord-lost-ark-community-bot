@@ -1,4 +1,10 @@
-import { Interaction, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import {
+    ButtonInteraction,
+    Interaction,
+    MessageActionRow,
+    MessageButton,
+    MessageEmbed
+} from 'discord.js';
 import { Discord } from '../discord.model';
 
 export const PINGPONG_TEST = {
@@ -20,10 +26,15 @@ export const PINGPONG_TEST = {
                 content: 'The Sum is ' + (num1 + num2),
                 ephemeral: true
             });
-        } else if (commandName === 'testbutton') {
-            const row = new MessageActionRow().addComponents(
-                new MessageButton().setCustomId('primary').setLabel('Primary').setStyle('PRIMARY')
-            );
+        } else if (commandName === 'test') {
+            console.log('Test2');
+            const row = new MessageActionRow()
+                .addComponents(
+                    new MessageButton().setCustomId('Yes').setLabel('Confirm').setStyle('SUCCESS')
+                )
+                .addComponents(
+                    new MessageButton().setCustomId('No').setLabel('Cancel').setStyle('DANGER')
+                );
 
             const embed = new MessageEmbed()
                 .setColor('#0099ff')
@@ -36,6 +47,37 @@ export const PINGPONG_TEST = {
                 ephemeral: true,
                 embeds: [embed],
                 components: [row]
+            });
+
+            const filter = (btnInter: Interaction) => {
+                //btnInter.deferUpdate();
+                return inter.user.id === btnInter.user.id;
+            };
+
+            const collector = inter.channel.createMessageComponentCollector({
+                filter,
+                max: 1,
+                time: 1000 * 15
+            });
+
+            collector.on('collect', (Buttoninter: ButtonInteraction) => {
+                Buttoninter.reply({
+                    content: 'You clicked yes',
+                    ephemeral: true
+                });
+            });
+
+            collector.on('end', async collection => {
+                collection.forEach(click => console.log(click.user.id, click.customId));
+
+                if (collection.first()?.customId === 'Yes') {
+                    console.log('He clicked yes indeed');
+                }
+
+                await inter.editReply({
+                    content: 'Button has been clicked',
+                    components: []
+                });
             });
         }
     }
