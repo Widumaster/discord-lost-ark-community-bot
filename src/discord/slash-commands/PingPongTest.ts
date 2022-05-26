@@ -1,10 +1,4 @@
-import {
-    ButtonInteraction,
-    Interaction,
-    MessageActionRow,
-    MessageButton,
-    MessageEmbed
-} from 'discord.js';
+import { Interaction, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
 import { Discord } from '../discord.model';
 
 export const PINGPONG_TEST = {
@@ -43,7 +37,7 @@ export const PINGPONG_TEST = {
                 .setDescription('Some description here');
 
             await inter.reply({
-                content: 'TestButton!',
+                //content: 'TestButton!',
                 ephemeral: true,
                 embeds: [embed],
                 components: [row]
@@ -60,12 +54,12 @@ export const PINGPONG_TEST = {
                 time: 1000 * 15
             });
 
-            collector.on('collect', (Buttoninter: ButtonInteraction) => {
+            /*collector.on('collect', (Buttoninter: ButtonInteraction) => {
                 Buttoninter.reply({
                     content: 'You clicked yes',
                     ephemeral: true
                 });
-            });
+            });*/
 
             collector.on('end', async collection => {
                 collection.forEach(click => console.log(click.user.id, click.customId));
@@ -76,7 +70,8 @@ export const PINGPONG_TEST = {
 
                 await inter.editReply({
                     content: 'Button has been clicked',
-                    components: []
+                    components: [],
+                    embeds: [embed]
                 });
             });
         }
