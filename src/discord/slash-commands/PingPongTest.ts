@@ -1,7 +1,7 @@
 import { Interaction, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
 import { Discord } from '../discord.model';
 
-export const PINGPONG_TEST = {
+export const GROUP_EMBED = {
     callback: async (inter: Interaction, discord: Discord): Promise<void> => {
         if (!inter.isCommand()) {
             return;
@@ -32,7 +32,10 @@ export const PINGPONG_TEST = {
             .setTitle('Group Test Message')
             .setDescription('Paste your Group here digga!');
 
-        await inter.channel.send({ embeds: [groupEmbeded], components: [row] });
+        const msg = { embeds: [groupEmbeded], components: [row] };
+        await inter.channel.send(msg);
+
+        let contenToStick = { embeds: [groupEmbeded], components: [row] };
 
         /*const filter = (btnInter: Interaction) => {
             //btnInter.deferUpdate();

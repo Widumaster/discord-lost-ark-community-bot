@@ -1,6 +1,6 @@
 import { Interaction } from 'discord.js';
 import { Discord, TInteractionHandler } from '../discord.model';
-import { PINGPONG_TEST } from './PingPongTest';
+import { GROUP_EMBED } from './PingPongTest';
 
 export const INTERACTION_HANDLER: TInteractionHandler = {
     callback: async (inter: Interaction, discord: Discord): Promise<void> => {
@@ -11,7 +11,7 @@ export const INTERACTION_HANDLER: TInteractionHandler = {
         const { commandName, options } = inter;
 
         if (commandName === 'test') {
-            await PINGPONG_TEST.callback(inter, discord);
+            await GROUP_EMBED.callback(inter, discord);
         } //else if(commandName === 'sticky')
     }
 };

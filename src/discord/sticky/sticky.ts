@@ -1,7 +1,13 @@
 import { Message } from 'discord.js';
 import { Discord } from '../discord.model';
 
-export const STICKY_MESSAGE_HANDLER = {
+type Test = {
+    stickymessage: string;
+    callback: (message: Message, discord: Discord) => Promise<void>;
+};
+
+export const STICKY_MESSAGE_HANDLER: Test = {
+    stickymessage: null,
     callback: async (message: Message, discord: Discord): Promise<void> => {
         let maxStickyMessageCount = 10;
         let count = 0;
@@ -16,7 +22,5 @@ export const STICKY_MESSAGE_HANDLER = {
                 lastStickyMessage = await message.channel.send(stickyContent);
             }
         }
-
-        let contenToStick = message;
     }
 };
