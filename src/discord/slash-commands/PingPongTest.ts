@@ -7,73 +7,63 @@ export const PINGPONG_TEST = {
             return;
         }
 
-        const { commandName, options } = inter;
-        if (commandName === 'ping') {
-            await inter.reply('pong');
-        } else if (commandName === 'pong') {
-            await inter.reply('ping');
-        } else if (commandName === 'add') {
-            const num1 = options.getNumber('num1')!;
-            const num2 = options.getNumber('num2')!;
-            console.log('Test');
-            inter.reply({
-                content: 'The Sum is ' + (num1 + num2),
-                ephemeral: true
-            });
-        } else if (commandName === 'test') {
-            console.log('Test2');
-            const row = new MessageActionRow()
-                .addComponents(
-                    new MessageButton().setCustomId('Yes').setLabel('Confirm').setStyle('SUCCESS')
-                )
-                .addComponents(
-                    new MessageButton().setCustomId('No').setLabel('Cancel').setStyle('DANGER')
-                );
+        const row = new MessageActionRow()
+            .addComponents(
+                new MessageButton().setCustomId('Yes').setLabel('Confirm').setStyle('SUCCESS')
+            )
+            .addComponents(
+                new MessageButton().setCustomId('No').setLabel('Cancel').setStyle('DANGER')
+            );
 
-            const embed = new MessageEmbed()
-                .setColor('#0099ff')
-                .setTitle('Some title')
-                .setURL('https://discord.js.org')
-                .setDescription('Some description here');
+        const embed = new MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle('GroupBuilder initialized successfully!')
+            .setDescription(
+                'Group was successfully initialized\nOnly you can see this Message so please ignore :)'
+            );
 
-            await inter.reply({
-                //content: 'TestButton!',
-                ephemeral: true,
-                embeds: [embed],
-                components: [row]
-            });
+        await inter.reply({
+            embeds: [embed],
+            ephemeral: true
+        });
 
-            const filter = (btnInter: Interaction) => {
-                //btnInter.deferUpdate();
-                return inter.user.id === btnInter.user.id;
-            };
+        const groupEmbeded = new MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle('Group Test Message')
+            .setDescription('Paste your Group here digga!');
 
-            const collector = inter.channel.createMessageComponentCollector({
-                filter,
-                max: 1,
-                time: 1000 * 15
-            });
+        await inter.channel.send({ embeds: [groupEmbeded], components: [row] });
 
-            /*collector.on('collect', (Buttoninter: ButtonInteraction) => {
+        /*const filter = (btnInter: Interaction) => {
+            //btnInter.deferUpdate();
+            return inter.user.id === btnInter.user.id;
+        };
+
+        const collector = inter.channel.createMessageComponentCollector({
+            filter,
+            max: 1,
+            time: 1000 * 15
+        });
+
+        collector.on('collect', (Buttoninter: ButtonInteraction) => {
                 Buttoninter.reply({
                     content: 'You clicked yes',
                     ephemeral: true
                 });
-            });*/
-
-            collector.on('end', async collection => {
-                collection.forEach(click => console.log(click.user.id, click.customId));
-
-                if (collection.first()?.customId === 'Yes') {
-                    console.log('He clicked yes indeed');
-                }
-
-                await inter.editReply({
-                    content: 'Button has been clicked',
-                    components: [],
-                    embeds: [embed]
-                });
             });
-        }
+
+        collector.on('end', async collection => {
+            collection.forEach(click => console.log(click.user.id, click.customId));
+
+            if (collection.first()?.customId === 'Yes') {
+                console.log('He clicked yes indeed');
+            }
+
+            await inter.editReply({
+                content: 'Button has been clicked',
+                components: [],
+                embeds: [embed]
+            });
+        });*/
     }
 };

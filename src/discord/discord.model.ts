@@ -21,17 +21,7 @@ import { COMMAND_COMMAND } from './deault-commands/command.command';
 import { getEmbedCalendar } from './embeds/calendar.embed';
 import { INTERACTION_HANDLER } from './slash-commands/InteractionHandler';
 import { SLASH_COMMANDS } from './slash-commands/slashCommands';
-
-export type TInteractionHandler = {
-    callback: (inter: Interaction, discord: Discord) => Promise<void>;
-};
-
-export type TSlashCommands = {
-    callback: (
-        constants: typeof Constants.ApplicationCommandOptionTypes,
-        discord: Discord
-    ) => Promise<void>;
-};
+import { STICKY_MESSAGE_HANDLER } from './sticky/sticky';
 
 export type TCalCommand = {
     desc: [string, string][];
@@ -124,6 +114,34 @@ export type TEventAlert = {
         },
         discord: Discord,
         alertChannel: TextChannel
+    ) => Promise<void>;
+};
+
+export type TInteractionHandler = {
+    callback: (inter: Interaction, discord: Discord) => Promise<void>;
+};
+
+export type TSlashCommands = {
+    callback: (
+        constants: typeof Constants.ApplicationCommandOptionTypes,
+        discord: Discord
+    ) => Promise<void>;
+};
+
+export type TStickyMessage = {
+    maxStickyMessageCount: Number;
+    count: Number;
+    channel: String;
+    stickyContent: Message;
+    lastStickyMessage: Message;
+    callback: (
+        maxStickyMessageCount: Number,
+        count: Number,
+        channel: String,
+        stickyContent: Message,
+        lastStickyMessage: Message,
+        message: Message,
+        discord: Discord
     ) => Promise<void>;
 };
 
@@ -694,16 +712,6 @@ export class Discord {
         await this.initCalendarChannel();
     }
 
-    private async _initSlashCommands(): Promise<void> {
-        await SLASH_COMMANDS.callback(Constants.ApplicationCommandOptionTypes, this);
-    }
-
-    private async _initInteractionHandler(): Promise<void> {
-        this._bot.on('interactionCreate', async Interaction => {
-            await INTERACTION_HANDLER.callback(Interaction, this);
-        });
-    }
-
     private async _routines(routines: Array<TRoutine>) {
         for (;;) {
             try {
@@ -773,6 +781,22 @@ export class Discord {
             where: {
                 key
             }
+        });
+    }
+
+    private async _initSlashCommands(): Promise<void> {
+        await SLASH_COMMANDS.callback(Constants.ApplicationCommandOptionTypes, this);
+    }
+
+    private async _initInteractionHandler(): Promise<void> {
+        this._bot.on('interactionCreate', async Interaction => {
+            await INTERACTION_HANDLER.callback(Interaction, this);
+        });
+    }
+
+    private async _initStickyMessage(): Promise<void> {
+        this._bot.on('messageCreate', async Message => {
+            await STICKY_MESSAGE_HANDLER.callback(Message, this);
         });
     }
 
