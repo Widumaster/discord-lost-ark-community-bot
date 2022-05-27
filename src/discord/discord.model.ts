@@ -21,6 +21,7 @@ import { COMMAND_COMMAND } from './deault-commands/command.command';
 import { getEmbedCalendar } from './embeds/calendar.embed';
 import { INTERACTION_HANDLER } from './slash-commands/InteractionHandler';
 import { SLASH_COMMANDS } from './slash-commands/slashCommands';
+import { StickyHandler } from './sticky/sticky';
 
 export type TCalCommand = {
     desc: [string, string][];
@@ -133,6 +134,7 @@ export type TStickyMessage = {
     channel: String;
     stickyContent: Message;
     lastStickyMessage: Message;
+    __type: 'stickymsg';
     callback: (
         maxStickyMessageCount: Number,
         count: Number,
@@ -149,6 +151,11 @@ export class Discord {
     private readonly _prefix = '!dot';
     private _bot: Client;
     private readonly _memberEventFactory: MemberEventFactory;
+    private _sticky: StickyHandler;
+
+    get sticky(): StickyHandler {
+        return this._sticky;
+    }
 
     get memberEventFactory(): MemberEventFactory {
         return this._memberEventFactory;
@@ -326,6 +333,7 @@ export class Discord {
         await this._memberEventFactory.init();
         await this._initSlashCommands();
         await this._initInteractionHandler();
+        await this._initStickyHandler();
     }
 
     public async updateCalendar(): Promise<void> {
@@ -793,11 +801,12 @@ export class Discord {
         });
     }
 
-    /*private async _initStickyMessage(): Promise<void> {
+    private async _initStickyHandler(): Promise<void> {
+        this._sticky = new StickyHandler(this);
         this._bot.on('messageCreate', async Message => {
-            await STICKY_MESSAGE_HANDLER.callback(Message, this);
+            this._sticky.stickyUpdate(Message, this);
         });
-    }*/
+    }
 
     //#endregion
 }

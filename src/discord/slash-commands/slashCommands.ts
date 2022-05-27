@@ -34,6 +34,11 @@ export const SLASH_COMMANDS: TSlashCommands = {
         });
 
         commands?.create({
+            name: 'unstick',
+            description: 'Test Description.'
+        });
+
+        commands?.create({
             name: 'add',
             description: 'Adds two numbers together.',
             options: [

@@ -1,6 +1,6 @@
 import { Interaction } from 'discord.js';
 import { Discord, TInteractionHandler } from '../discord.model';
-import { GROUP_EMBED } from './PingPongTest';
+import { GROUP_EMBED } from './GroupEmbed';
 
 export const INTERACTION_HANDLER: TInteractionHandler = {
     callback: async (inter: Interaction, discord: Discord): Promise<void> => {
@@ -11,8 +11,11 @@ export const INTERACTION_HANDLER: TInteractionHandler = {
         const { commandName, options } = inter;
 
         if (commandName === 'test') {
-            await GROUP_EMBED.callback(inter, discord);
-        } //else if(commandName === 'sticky')
+            /*discord.sticky.contentToStick =*/ await GROUP_EMBED.callback(inter, discord);
+        } /*else if (commandName === 'unstick') {
+            discord.sticky.unstickMessage(inter);
+            await STICKY_UNSTICK.callback(inter, discord);
+        }*/
     }
 };
 
