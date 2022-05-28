@@ -6,7 +6,6 @@ import {
     GuildMember,
     Interaction,
     Message,
-    MessageEmbed,
     MessageReaction,
     PartialMessageReaction,
     PartialUser,
@@ -130,8 +129,9 @@ export type TSlashCommands = {
 };
 
 export type TGroup = {
-    groupMember: string[];
-    callback: (embed: MessageEmbed, discord: Discord) => Promise<MessageEmbed>;
+    partyMember: string[];
+    memberclass: string[];
+    memberiLevel: String[];
 };
 
 export type TStickyMessage = {

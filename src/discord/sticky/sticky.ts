@@ -24,7 +24,7 @@ export class StickyHandler {
         this._discord = discord;
     }
 
-    get StickyMessageID(): String {
+    get StickyMessageID(): string {
         return this._StickyMessageID;
     }
 
