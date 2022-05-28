@@ -1,4 +1,5 @@
 import {
+    ButtonInteraction,
     Interaction,
     MessageActionRow,
     MessageButton,
@@ -89,12 +90,12 @@ export const GROUP_EMBED = {
             time: 5000 * 15
         });
 
-        /*collector.on('collect', (Buttoninter: ButtonInteraction) => {
+        collector.on('collect', (Buttoninter: ButtonInteraction) => {
             Buttoninter.reply({
-                content: 'You clicked yes',
+                content: 'You successfully Signed up for the Group',
                 ephemeral: true
             });
-        });*/
+        });
 
         const groupBuilder = new GroupBuilder();
         collector.on('end', async collection => {
