@@ -24,6 +24,10 @@ export class StickyHandler {
         this._discord = discord;
     }
 
+    get StickyMessageID(): String {
+        return this._StickyMessageID;
+    }
+
     public set contentToStick(channelId_messageId: string[]) {
         this._channelId = channelId_messageId[0];
         this._StickyMessageID = channelId_messageId[1];

@@ -1,5 +1,6 @@
 import { Interaction } from 'discord.js';
 import { Discord, TInteractionHandler } from '../discord.model';
+import { STICKY_UNSTICK } from '../sticky/removeSticky';
 import { GROUP_EMBED } from './GroupEmbed';
 
 export const INTERACTION_HANDLER: TInteractionHandler = {
@@ -11,11 +12,11 @@ export const INTERACTION_HANDLER: TInteractionHandler = {
         const { commandName, options } = inter;
 
         if (commandName === 'test') {
-            /*discord.sticky.contentToStick =*/ await GROUP_EMBED.callback(inter, discord);
-        } /*else if (commandName === 'unstick') {
+            discord.sticky.contentToStick = await GROUP_EMBED.callback(inter, discord);
+        } else if (commandName === 'unstick') {
             discord.sticky.unstickMessage(inter);
             await STICKY_UNSTICK.callback(inter, discord);
-        }*/
+        }
     }
 };
 

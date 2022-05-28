@@ -6,6 +6,7 @@ import {
     GuildMember,
     Interaction,
     Message,
+    MessageEmbed,
     MessageReaction,
     PartialMessageReaction,
     PartialUser,
@@ -126,6 +127,11 @@ export type TSlashCommands = {
         constants: typeof Constants.ApplicationCommandOptionTypes,
         discord: Discord
     ) => Promise<void>;
+};
+
+export type TGroup = {
+    groupMember: string[];
+    callback: (embed: MessageEmbed, discord: Discord) => Promise<MessageEmbed>;
 };
 
 export type TStickyMessage = {
