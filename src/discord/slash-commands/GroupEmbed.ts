@@ -23,8 +23,8 @@ export const GROUP_EMBED = {
             );
 
         await inter.reply({
-            embeds: [embed],
-            ephemeral: true
+            embeds: [embed]
+            //ephemeral: true
         });
 
         let groupEmbeded = new MessageEmbed()
@@ -80,48 +80,39 @@ export const GROUP_EMBED = {
                 iconURL: 'https://i.imgur.com/AfFp7pu.png'
             })*/
 
-        const filter = (btnInter: Interaction) => {
+        /*const filter = (btnInter: Interaction) => {
             return inter.user.id === btnInter.user.id;
-        };
+        };*/
 
         const collector = inter.channel.createMessageComponentCollector({
-            filter,
-            max: 1,
-            time: 5000 * 15
-        });
-
-        collector.on('collect', (Buttoninter: ButtonInteraction) => {
-            Buttoninter.reply({
-                content: 'You successfully Signed up for the Group',
-                ephemeral: true
-            });
+            //filter,
+            //max: 1,
+            //time: 5000 * 15
         });
 
         const groupBuilder = new GroupBuilder();
-        collector.on('end', async collection => {
-            //collection.forEach(click => console.log(click.user.id, click.customId));
-
-            if (collection.first()?.customId === 'SignUp') {
+        collector.on('collect', (Buttoninter: ButtonInteraction) => {
+            if (Buttoninter.customId === 'SignUp') {
+                Buttoninter.reply({
+                    content: 'Clicked a GREEN BUTTON WOOOOOA wild!'
+                    //ephemeral: true
+                });
+            }
+            if (Buttoninter.customId === 'SignUp') {
                 // Participation in Group
-                groupEmbeded = groupBuilder.groupBuildSign_IN(groupEmbeded, collection, discord);
+                groupEmbeded = groupBuilder.groupBuildSign_IN(groupEmbeded, Buttoninter, discord);
 
                 let newmsg = { embeds: [groupEmbeded], components: [row] };
                 const chan = <TextChannel>discord.bot.channels.cache.get(inter.channelId);
                 const msg = chan.messages.fetch(discord.sticky.StickyMessageID).then(async msg => {
                     await msg.edit(newmsg);
                 });
-            } else if (collection.first()?.customId === 'SignOut') {
-                //Cancel Participation in Group
-                /*
-                groupEmbeded = await GROUP_BUILD_SIGNOUT.callback(groupEmbeded, discord);
-                */
+            } else if (Buttoninter.customId === 'SignOut') {
+                Buttoninter.reply({
+                    content: 'Clicked a GRE...red button? yikes'
+                    //ephemeral: true
+                });
             }
-
-            /*await inter.channel.send({
-                content: 'Button has been clicked',
-                components: [],
-                embeds: [embed]
-            });*/
         });
 
         let msg = { embeds: [groupEmbeded], components: [row] };
