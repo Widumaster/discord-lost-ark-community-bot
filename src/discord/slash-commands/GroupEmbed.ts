@@ -92,10 +92,10 @@ export const GROUP_EMBED = {
 
         const groupBuilder = new GroupBuilder();
         collector.on('collect', (Buttoninter: ButtonInteraction) => {
-            if (Buttoninter.customId === 'SignUp') {
+            if (Buttoninter.customId === 'SignUp' /*'Test'*/) {
                 Buttoninter.reply({
-                    content: 'Clicked a GREEN BUTTON WOOOOOA wild!'
-                    //ephemeral: true
+                    content: 'Clicked a GREEN BUTTON WOOOOOA wild!',
+                    ephemeral: true
                 });
             }
             if (Buttoninter.customId === 'SignUp') {
@@ -109,7 +109,7 @@ export const GROUP_EMBED = {
                 });
             } else if (Buttoninter.customId === 'SignOut') {
                 Buttoninter.reply({
-                    content: 'Clicked a GRE...red button? yikes'
+                    content: 'Clicked a GRE...reeeed button?.... yikes'
                     //ephemeral: true
                 });
             }

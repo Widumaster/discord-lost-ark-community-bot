@@ -131,7 +131,7 @@ export type TSlashCommands = {
 export type TGroup = {
     partyMember: string[];
     memberclass: string[];
-    memberiLevel: String[];
+    memberiLevel: string[];
 };
 
 export type TStickyMessage = {
